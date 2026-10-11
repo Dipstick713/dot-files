@@ -1,0 +1,45 @@
+# Obsidian / Emerald — minimal Starship prompt
+add_newline = false
+command_timeout = 1000
+format = "$directory$git_branch$git_status$nodejs$golang$python$character"
+
+[directory]
+style = "bold #B7F34A"
+truncation_length = 3
+truncate_to_repo = true
+format = "[$path]($style) "
+
+[git_branch]
+symbol = " "
+style = "bold #20C96B"
+format = "[$symbol$branch]($style) "
+
+[git_status]
+style = "#D6F5DE"
+format = "([$all_status$ahead_behind]($style) )"
+conflicted = "✖"
+untracked = "?"
+modified = "!"
+staged = "+"
+renamed = "»"
+deleted = "✘"
+
+[nodejs]
+symbol = "⬢ "
+style = "#B7F34A"
+format = "[$symbol$version]($style) "
+
+[golang]
+symbol = " "
+style = "#20C96B"
+format = "[$symbol$version]($style) "
+
+[python]
+symbol = " "
+style = "#D6F5DE"
+format = "[$symbol$version]($style) "
+
+[character]
+success_symbol = "[❯](bold #B7F34A)"
+error_symbol = "[❯](bold red)"
+vimcmd_symbol = "[❮](bold #20C96B)"

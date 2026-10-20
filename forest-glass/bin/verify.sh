@@ -62,8 +62,12 @@ if grep -qF 'smp-metric-${id}' "$SMPD/extension.js"; then
 fi
 
 echo "Dotfiles"
-(cd "$HOME/.dotfiles" && [ "$(git rev-parse HEAD)" = "$(head -1 "$BK/snapshots/dotfiles-git.txt")" ] && [ -z "$(git status --porcelain)" ]) \
-  && ok "~/.dotfiles: same HEAD, clean tree" || note "~/.dotfiles changed since the rice started (not by this task)"
+base="$(head -1 "$BK/snapshots/dotfiles-git.txt")"
+(cd "$HOME/.dotfiles" && git merge-base --is-ancestor "$base" HEAD \
+   && [ -z "$(git diff --name-only "$base" HEAD -- . ':(exclude)forest-glass')" ] \
+   && [ -z "$(git status --porcelain -- . ':(exclude)forest-glass')" ]) \
+  && ok "~/.dotfiles: original files unchanged (only forest-glass/ added)" \
+  || note "~/.dotfiles: files outside forest-glass/ changed since the rice started (not by this task)"
 
 echo "Shell log (since $(date -d '-30 min' '+%H:%M'))"
 errs="$(journalctl --user -o cat --since '-30 min' _COMM=gnome-shell 2>/dev/null \

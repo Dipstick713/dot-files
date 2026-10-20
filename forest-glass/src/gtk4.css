@@ -1,0 +1,77 @@
+/* Forest Glass — GTK 4 / libadwaita (1.6+)
+   Source: ~/.config/forest-glass/src/gtk4.css → installed as ~/.config/gtk-4.0/gtk.css
+   by ~/.config/forest-glass/bin/apply-gtk.sh.
+
+   Recolours libadwaita through its documented named-colour variables rather
+   than restyling widgets, so layouts, spacing and controls stay stock.
+   Palette: obsidian #101510 · emerald #173D27 · green #20C96B ·
+            lime #B7F34A · mint #D6F5DE */
+
+:root {
+  /* Accent: green fill with obsidian text (white on #20C96B fails contrast). */
+  --accent-bg-color: #20C96B;
+  --accent-fg-color: #101510;
+  --accent-color: #20C96B;
+
+  --window-bg-color: #131A14;
+  --window-fg-color: #D6F5DE;
+  --view-bg-color: #101510;
+  --view-fg-color: #D6F5DE;
+
+  --headerbar-bg-color: #151E17;
+  --headerbar-fg-color: #D6F5DE;
+  --headerbar-border-color: #D6F5DE;
+  --headerbar-backdrop-color: #131A14;
+  --headerbar-shade-color: rgba(0, 0, 0, 0.36);
+  --headerbar-darker-shade-color: rgba(0, 0, 0, 0.9);
+
+  --sidebar-bg-color: #121913;
+  --sidebar-fg-color: #D6F5DE;
+  --sidebar-backdrop-color: #121913;
+  --sidebar-shade-color: rgba(0, 0, 0, 0.25);
+  --sidebar-border-color: rgba(0, 0, 0, 0.36);
+  --secondary-sidebar-bg-color: #111812;
+  --secondary-sidebar-fg-color: #D6F5DE;
+  --secondary-sidebar-backdrop-color: #111812;
+  --secondary-sidebar-shade-color: rgba(0, 0, 0, 0.25);
+  --secondary-sidebar-border-color: rgba(0, 0, 0, 0.36);
+
+  --card-bg-color: rgba(214, 245, 222, 0.05);
+  --card-fg-color: #D6F5DE;
+  --card-shade-color: rgba(0, 0, 0, 0.36);
+
+  --dialog-bg-color: #172119;
+  --dialog-fg-color: #D6F5DE;
+  --popover-bg-color: #18231A;
+  --popover-fg-color: #D6F5DE;
+  --popover-shade-color: rgba(0, 0, 0, 0.25);
+  --thumbnail-bg-color: #18231A;
+  --thumbnail-fg-color: #D6F5DE;
+
+  --shade-color: rgba(0, 0, 0, 0.25);
+  --scrollbar-outline-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Emerald selection instead of the default accent wash, matching the shell. */
+selection {
+  background-color: #173D27;
+  color: #D6F5DE;
+}
+
+.navigation-sidebar > row:selected,
+.navigation-sidebar > row:selected:focus,
+.view:selected,
+.view:selected:focus {
+  background-color: #173D27;
+  color: #D6F5DE;
+}
+
+.navigation-sidebar > row:hover:not(:selected) {
+  background-color: rgba(32, 201, 107, 0.08);
+}
+
+/* Lime is the hover highlight for primary buttons only. */
+button.suggested-action:hover {
+  background-color: #B7F34A;
+  color: #101510;
+}

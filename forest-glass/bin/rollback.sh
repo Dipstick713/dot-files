@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Forest Glass — roll back changes made by this task, from the backup manifest.
 #
-#   rollback.sh [--phase A|B|C|D|W|L] [--dry-run] [--force] [--backup DIR]
+#   rollback.sh [--phase A|B|C|D|W|L|X|T|K] [--dry-run] [--force] [--backup DIR]
 #
 # Phases: A = shell theme file (gnome-shell.css carries the panel, overview and
 #             app-grid styling, i.e. A+B+C visuals) + ArcMenu panel button
@@ -16,6 +16,7 @@
 #         L = Super+D launcher (ArcMenu standalone runner)
 #         X = Blur My Shell (extension uninstalled, its keys reset)
 #         T = enabled-extensions tidy (re-adds the removed UUIDs)
+#         K = shortcut fixes (close on Super+Q/Alt+F4, Super+N workspaces)
 #
 # Safety: only paths/keys listed in MANIFEST.tsv are touched. Each one is
 # restored only if it still holds the value this task applied; anything you

@@ -17,6 +17,9 @@ hold originals; `snapshots/` holds pre-rice dconf dumps, keybindings, wallpaper 
 | `bin/apply-launcher.sh` | Phase L: ArcMenu standalone runner, centered, on Super+D |
 | `bin/apply-gtk.sh` | Phase D GTK CSS, gtk-theme, icon-theme, monospace font |
 | `bin/apply-tidy-extensions.sh` | Phase T: drop x11gestures (X11-only) and two uninstalled UUIDs from enabled-extensions |
+| `bin/apply-keybinding-fixes.sh` | Phase K: Super+Q and Alt+F4 close windows, Super+1…9 / Shift+Super+1…9 = workspaces (Dash to Dock number + show-dock hotkeys off) |
+| `bin/shortcuts.py` | Live shortcut cheatsheet + static checks (validity, clashes, commands, owners) → `SHORTCUTS.md` |
+| `bin/test-shortcuts.py` | Live-tests a safe subset on a virtual keyboard (test windows on an empty workspace; restores volume/brightness) |
 | `bin/init-backup.sh` | New timestamped backup dir + pre-rice snapshots (run first on a fresh install) |
 | `bin/sync-to-dotfiles.sh` | Copy tooling + exported rice settings into `~/.dotfiles/forest-glass/` (no commit) |
 | `bin/verify.sh` | Read-only health check (wallpaper, Forge/shortcuts, extensions, monitors, CSS, logs) |
@@ -38,6 +41,7 @@ to rebase the theme on the new stock stylesheet.
 ~/.config/forest-glass/bin/rollback.sh --phase L      # Super+D Rofi-style launcher (ArcMenu runner)
 ~/.config/forest-glass/bin/rollback.sh --phase X      # Blur My Shell (uninstall + reset its keys)
 ~/.config/forest-glass/bin/rollback.sh --phase T      # re-add tidied enabled-extensions entries
+~/.config/forest-glass/bin/rollback.sh --phase K      # shortcut fixes (Super+Q/Alt+F4 close, Super+N workspaces)
 ```
 Anything changed after the rice is reported as CONFLICT and left alone; add `--force`
 to restore it anyway. Backups are never deleted. Note: the shell theme file carries
@@ -77,3 +81,8 @@ cp -r ~/.dotfiles/forest-glass/{bin,src,README.md} ~/.config/forest-glass/   # m
 Then log out and back in once. `dconf/rice-settings.ini` in the dotfiles is a reference
 export of the managed keys (`dconf load / < rice-settings.ini`). To refresh the dotfiles
 copy after changes: `~/.config/forest-glass/bin/sync-to-dotfiles.sh`, then commit.
+
+## Shortcuts
+`SHORTCUTS.md` is the live cheatsheet (regenerate: `bin/shortcuts.py --md SHORTCUTS.md
+--tested shortcut-test-results.json`). `bin/test-shortcuts.py --report shortcut-test-results.json`
+re-runs the live tests; keep hands off the keyboard for ~1 minute while it runs.

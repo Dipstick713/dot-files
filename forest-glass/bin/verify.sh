@@ -18,8 +18,11 @@ now="$(gsettings get org.gnome.desktop.background picture-uri; gsettings get org
 echo "Forge and shortcuts"
 cur="$(dconf dump /org/gnome/shell/extensions/forge/; dconf dump /org/gnome/desktop/wm/keybindings/; dconf dump /org/gnome/shell/keybindings/;
        dconf dump /org/gnome/mutter/; dconf dump /org/gnome/settings-daemon/plugins/media-keys/)"
-d="$(diff <(grep -v '^css-updated=' "$BK/snapshots/keybindings-and-forge.ini") <(printf '%s\n' "$cur" | grep -v '^css-updated='))"
-[ -z "$d" ] && ok "Forge settings, Forge/WM/shell/media keybindings identical to pre-rice snapshot (css-updated reload stamp excluded)" \
+# Keys this task changed on purpose (manifest, e.g. phase K close/shutdown) are excluded.
+intentional="$(awk -F'\t' '$1=="dconf" && $3 ~ /keybindings|media-keys|forge/ {n=split($3,a,"/"); print "^" a[n] "="}' "$BK/MANIFEST.tsv" | sort -u)"
+filt() { grep -vE '^css-updated=|^\[/]$' | { [ -n "$intentional" ] && grep -vE -f <(printf '%s\n' $intentional) || cat; }; }
+d="$(diff <(filt < "$BK/snapshots/keybindings-and-forge.ini") <(printf '%s\n' "$cur" | filt))"
+[ -z "$d" ] && ok "Forge settings + all keybindings identical to pre-rice snapshot (except the ones this task changed on purpose: $(echo $intentional | tr -d '^=' ))" \
             || { bad "keybinding/Forge differences:"; echo "$d" | sed 's/^/      /'; }
 gnome-extensions info forge@jmmaranan.com 2>/dev/null | grep -q 'State: ACTIVE' && ok "Forge extension ACTIVE" || bad "Forge not active"
 [ "$(dconf read /org/gnome/shell/extensions/forge/tiling-mode-enabled)" = true ] && ok "Forge tiling enabled" || bad "Forge tiling not enabled"

@@ -8,9 +8,12 @@ DEST="$HOME/.dotfiles/forest-glass"
 [ -d "$HOME/.dotfiles/.git" ] || { echo "~/.dotfiles is not a git repo" >&2; exit 1; }
 mkdir -p "$DEST/bin" "$DEST/src" "$DEST/dconf"
 # Mirror bin/ and src/ (removing files deleted from the tooling), plus README.
-rsync -a --delete "$FG_HOME/bin/" "$DEST/bin/"
-rsync -a --delete "$FG_HOME/src/" "$DEST/src/"
+rsync -a --delete --exclude __pycache__ "$FG_HOME/bin/" "$DEST/bin/"
+rsync -a --delete --exclude __pycache__ "$FG_HOME/src/" "$DEST/src/"
 install -m 644 "$FG_HOME/README.md" "$DEST/README.md"
+for f in SHORTCUTS.md shortcut-test-results.json; do
+  [ -f "$FG_HOME/$f" ] && install -m 644 "$FG_HOME/$f" "$DEST/$f"
+done
 
 # Current values of every dconf key the rice manages (from the backup manifest),
 # in `dconf load` format. Reference/restore aid; the apply scripts set these too.

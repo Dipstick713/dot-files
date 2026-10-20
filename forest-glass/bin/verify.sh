@@ -27,8 +27,9 @@ gnome-extensions info forge@jmmaranan.com 2>/dev/null | grep -q 'State: ACTIVE' 
 echo "Extensions"
 # Extensions this task installed itself (manifest kind "extension") are expected additions.
 added="$(awk -F'\t' '$1=="extension"{print $3}' "$BK/MANIFEST.tsv")"
-d="$(diff <(sort "$BK/snapshots/enabled-extensions.txt") <(gnome-extensions list --enabled | grep -vxF -f <(printf '%s\n' $added) | sort))"
-[ -z "$d" ] && ok "enabled-extension set unchanged${added:+ (plus installed by this task: $added)}" || { bad "enabled extensions differ:"; echo "$d" | sed 's/^/      /'; }
+removed="$(awk -F'\t' '$1=="extoff"{print $3}' "$BK/MANIFEST.tsv")"
+d="$(diff <(grep -vxF -f <(printf '%s\n' $removed) "$BK/snapshots/enabled-extensions.txt" | sort) <(gnome-extensions list --enabled | grep -vxF -f <(printf '%s\n' $added) | sort))"
+[ -z "$d" ] && ok "enabled-extension set unchanged${added:+ (plus installed by this task: $added)}${removed:+ (minus tidied entries: $(echo $removed))}" || { bad "enabled extensions differ:"; echo "$d" | sed 's/^/      /'; }
 while read -r uuid; do
   st="$(gnome-extensions info "$uuid" 2>/dev/null | sed -n 's/.*State: //p')"
   case "$st" in ACTIVE) ;; *) note "$uuid state: ${st:-not installed}";; esac

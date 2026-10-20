@@ -15,6 +15,7 @@
 #             <backup>/layers/forest-glass-shell.round1.css.)
 #         L = Super+D launcher (ArcMenu standalone runner)
 #         X = Blur My Shell (extension uninstalled, its keys reset)
+#         T = enabled-extensions tidy (re-adds the removed UUIDs)
 #
 # Safety: only paths/keys listed in MANIFEST.tsv are touched. Each one is
 # restored only if it still holds the value this task applied; anything you
@@ -81,6 +82,17 @@ while IFS=$'\t' read -r kind phase uuid; do
     act dconf write /org/gnome/shell/enabled-extensions "$new"
   fi
   echo "  $DID (uninstall) $uuid"; restored=$((restored+1))
+done < "$BK/MANIFEST.tsv"
+
+# Entries removed from enabled-extensions: add each back if it is missing.
+while IFS=$'\t' read -r kind phase uuid; do
+  [ -n "$PHASE" ] && [ "$phase" != "$PHASE" ] && continue
+  [ "$kind" = extoff ] || continue
+  cur="$(dconf read /org/gnome/shell/enabled-extensions)"
+  if [[ "$cur" == *"'$uuid'"* ]]; then echo "  ok       $uuid already enabled"; skipped=$((skipped+1)); continue; fi
+  new="$(python3 -I -c 'import sys,ast; v=sys.argv[1].replace("@as ","") or "[]"; l=ast.literal_eval(v); print(repr(l+[sys.argv[2]]))' "$cur" "$uuid")"
+  act dconf write /org/gnome/shell/enabled-extensions "$new"
+  echo "  $DID (re-enable) $uuid"; restored=$((restored+1))
 done < "$BK/MANIFEST.tsv"
 
 # Then dconf keys.

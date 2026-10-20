@@ -16,6 +16,7 @@ hold originals; `snapshots/` holds pre-rice dconf dumps, keybindings, wallpaper 
 | `bin/apply-waybar-modules.sh` | Phase W (round 2, Waybar-style modules): monitor stylesheet block + 1-line `extension.js` class patch, Pamac symbolic icons, battery %, Space Bar + ArcMenu settings |
 | `bin/apply-launcher.sh` | Phase L: ArcMenu standalone runner, centered, on Super+D |
 | `bin/apply-gtk.sh` | Phase D GTK CSS, gtk-theme, icon-theme, monospace font |
+| `bin/apply-tidy-extensions.sh` | Phase T: drop x11gestures (X11-only) and two uninstalled UUIDs from enabled-extensions |
 | `bin/init-backup.sh` | New timestamped backup dir + pre-rice snapshots (run first on a fresh install) |
 | `bin/sync-to-dotfiles.sh` | Copy tooling + exported rice settings into `~/.dotfiles/forest-glass/` (no commit) |
 | `bin/verify.sh` | Read-only health check (wallpaper, Forge/shortcuts, extensions, monitors, CSS, logs) |
@@ -36,6 +37,7 @@ to rebase the theme on the new stock stylesheet.
 ~/.config/forest-glass/bin/rollback.sh --phase W      # round-2 extension-side changes (see below)
 ~/.config/forest-glass/bin/rollback.sh --phase L      # Super+D Rofi-style launcher (ArcMenu runner)
 ~/.config/forest-glass/bin/rollback.sh --phase X      # Blur My Shell (uninstall + reset its keys)
+~/.config/forest-glass/bin/rollback.sh --phase T      # re-add tidied enabled-extensions entries
 ```
 Anything changed after the rice is reported as CONFLICT and left alone; add `--force`
 to restore it anyway. Backups are never deleted. Note: the shell theme file carries

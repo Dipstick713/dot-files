@@ -1,0 +1,131 @@
+/* Forest Glass — System Monitor Panel module styling.
+   Inserted between the >>> / <<< markers at the end of the extension's
+   stylesheet.css by ~/.config/forest-glass/bin/apply-waybar-modules.sh
+   (re-running replaces the block, never appends a second copy). Being in the
+   extension's own file is what lets these rules win: St ranks extension
+   stylesheets above the shell theme for that extension's widgets. */
+
+/* --- Panel: Waybar-style modules --------------------------------------- */
+
+/* 10px between modules, matching Quick Settings / other panel buttons. */
+.smp-panel-box {
+  spacing: 10px;
+  padding: 0;
+}
+
+/* Full-height module (the panel is 32px): 8px top/bottom padding puts the
+   2px underline on the same baseline as every other panel module. Uniform
+   border colour + bottom-only width, because St paints all four sides of a
+   border in one colour. */
+.smp-metric-box {
+  spacing: 5px;
+  padding: 8px 6px 8px 6px;
+  color: #D6F5DE;
+  border: 0 solid rgba(214, 245, 222, 0.5);
+  border-bottom-width: 2px;
+}
+
+.smp-metric-icon {
+  icon-size: 14px;
+}
+
+.smp-metric-label {
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 0;
+}
+
+/* Per-metric colours (classes added by the one-line extension.js patch). */
+.smp-metric-box.smp-metric-cpu         { color: #B7F34A; border-color: #B7F34A; }
+.smp-metric-box.smp-metric-gpu         { color: #73DACA; border-color: #73DACA; }
+.smp-metric-box.smp-metric-memory      { color: #20C96B; border-color: #20C96B; }
+.smp-metric-box.smp-metric-disk        { color: #D6F5DE; border-color: #D6F5DE; }
+.smp-metric-box.smp-metric-temperature { color: #73DACA; border-color: #73DACA; }
+.smp-metric-box.smp-metric-network     { color: #55E88B; border-color: #55E88B; }
+
+/* Thresholds keep their meaning: amber warning, coral critical. */
+.smp-metric-label.smp-label-warning  { color: #E8C468; }
+.smp-metric-label.smp-label-critical { color: #FF7B63; }
+
+/* --- Dropdown dashboard: Forest Glass surfaces ------------------------- */
+.smp-dropdown-menu {
+  background-color: #101510;
+  border-radius: 14px;
+}
+
+.smp-card {
+  background-color: rgba(23, 61, 39, 0.55);
+  border: 1px solid transparent;
+  border-radius: 10px;
+}
+
+.smp-card-title,
+.smp-card-value,
+.smp-detail-value,
+.smp-disk-percent,
+.smp-sensor-value,
+.smp-core-value,
+.smp-swap-value,
+.smp-disk-name,
+.smp-gpu-name,
+.smp-gpu-percent {
+  color: #D6F5DE;
+}
+
+.smp-core-label,
+.smp-detail-title,
+.smp-swap-title,
+.smp-disk-detail,
+.smp-sensor-name {
+  color: rgba(214, 245, 222, 0.62);
+}
+
+.smp-section-subtitle,
+.smp-gpu-note,
+.smp-no-sensors {
+  color: rgba(214, 245, 222, 0.48);
+}
+
+.smp-bar-bg,
+.smp-mini-bar-bg,
+.smp-swap-bar-bg,
+.smp-disk-bar-bg {
+  background-color: rgba(214, 245, 222, 0.08);
+}
+
+.smp-swap-box {
+  border-top: 1px solid rgba(214, 245, 222, 0.07);
+}
+
+.smp-color-cpu  { color: #20C96B; }
+.smp-color-gpu  { color: #73DACA; }
+.smp-color-mem  { color: #B7F34A; }
+.smp-color-disk { color: #D6F5DE; }
+.smp-color-temp { color: #9BE7B4; }
+.smp-color-net  { color: #55E88B; }
+
+.smp-color-cpu-bg  { background-color: #20C96B; }
+.smp-color-gpu-bg  { background-color: #73DACA; }
+.smp-color-mem-bg  { background-color: #B7F34A; }
+.smp-color-disk-bg { background-color: #D6F5DE; }
+.smp-color-temp-bg { background-color: #9BE7B4; }
+.smp-color-net-bg  { background-color: #55E88B; }
+
+.smp-swap-bar-fill    { background-color: #20C96B; }
+.smp-net-speed-value  { color: #55E88B; }
+
+.smp-disk-badge,
+.smp-gpu-badge {
+  color: #B7F34A;
+  background-color: rgba(183, 243, 74, 0.12);
+}
+
+/* After the section fills so a 92 %+ disk reads as critical. */
+.smp-progress-normal   { background-color: #20C96B; }
+.smp-progress-warning  { background-color: #E8C468; }
+.smp-progress-critical { background-color: #FF7B63; }
+
+.smp-footer-button {
+  border-radius: 8px;
+}

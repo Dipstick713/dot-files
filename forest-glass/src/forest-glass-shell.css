@@ -1,0 +1,1394 @@
+/* ==========================================================================
+   Forest Glass — GNOME Shell 50 layer for ForestShell
+   Appended to the stock GNOME 50 dark stylesheet by
+   ~/.config/forest-glass/bin/build-shell-theme.sh. Edit THIS file, not the
+   generated gnome-shell.css.
+
+   Palette
+     obsidian  #101510   background              rgb(16, 21, 16)
+     emerald   #173D27   surface                 rgb(23, 61, 39)
+     green     #20C96B   accent                  rgb(32, 201, 107)
+     lime      #B7F34A   highlight (sparingly)   rgb(183, 243, 74)
+     mint      #D6F5DE   foreground              rgb(214, 245, 222)
+   Derived
+     emerald-hover #245435 · muted mint rgba(214,245,222,0.62)
+     faint mint rgba(214,245,222,0.42) · hairline rgba(214,245,222,0.07)
+     hover rgba(32,201,107,0.14) · pressed rgba(183,243,74,0.16)
+     warning #E8C468 · critical #FF7B63 (status only, never decoration)
+
+   St has no backdrop blur, so "glass" here means layered translucency:
+   near-opaque obsidian surfaces with translucent emerald tiles on top.
+   ========================================================================== */
+
+
+/* --------------------------------------------------------------------------
+   1. Top panel — Waybar-style modules (after GarroNinja/gruvbox-hyprland)
+   Every item is a "module": icon + monospace value in one colour, a 2px
+   underline in the same colour, no background, even gaps. Buttons only
+   show a faint wash on hover / while their menu is open.
+
+   Module colours
+     launcher #20C96B · clock #9BE7B4 · cpu #B7F34A · memory #20C96B
+     disk #D6F5DE · temperature #73DACA · network #55E88B · battery #B7F34A
+     tray / quick-settings icons: mint with a muted underline
+   -------------------------------------------------------------------------- */
+#panel {
+  background-color: #101510;
+  color: #D6F5DE;
+  border: none;
+  box-shadow: none;
+}
+
+/* Buttons: horizontal padding chosen so the gap between modules in
+   different buttons (2 × 5px) matches the 10px gap inside one button.
+   Minimum = natural: the panel otherwise falls back to the minimum on
+   float-rounding ties and the gaps become uneven. */
+#panel .panel-button {
+  color: #D6F5DE;
+  border-radius: 3px;
+  -natural-hpadding: 5px;
+  -minimum-hpadding: 5px;
+  box-shadow: inset 0 0 0 100px transparent;
+  transition-duration: 150ms;
+}
+
+#panel .panel-button:hover,
+#panel .panel-button:focus {
+  box-shadow: inset 0 0 0 100px rgba(32, 201, 107, 0.10);
+}
+
+#panel .panel-button:active,
+#panel .panel-button:checked,
+#panel .panel-button:active:hover,
+#panel .panel-button:checked:hover {
+  box-shadow: inset 0 0 0 100px rgba(183, 243, 74, 0.10);
+}
+
+#panel .panel-button .system-status-icon {
+  padding: 0;
+  margin: 0;
+}
+
+#panel .privacy-indicator {
+  color: #B7F34A;
+}
+
+/* Shared module geometry. Full-height boxes, so every underline sits on
+   the same baseline 3px above the bar's bottom edge. */
+#panel .panel-button .panel-status-indicators-box > .panel-status-indicators-box,
+#panel .panel-button .panel-status-menu-box {
+  padding: 0 6px !important;
+  spacing: 5px !important;
+  border: 0 solid rgba(214, 245, 222, 0.5) !important;
+  border-bottom-width: 2px !important;
+}
+
+/* Tray-like items: Quick Settings indicators (network, volume, Forge…),
+   Pamac, AppIndicators — mint icons, muted underline, like the reference
+   tray. Pamac's grey full-colour icon is swapped for a tintable symbolic. */
+#panel .panel-button .panel-status-indicators-box,
+#panel .panel-button .panel-status-indicators-box .system-status-icon,
+#panel .panel-button .panel-status-menu-box .system-status-icon {
+  color: #D6F5DE;
+  -st-icon-style: symbolic;
+}
+
+#panel .panel-button .panel-status-indicators-box {
+  spacing: 10px !important;
+  padding: 0 !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Battery — GNOME's power indicator, with its percentage label shown. */
+#panel .panel-button .panel-status-indicators-box > .power-status {
+  color: #B7F34A !important;
+  border-color: #B7F34A !important;
+  spacing: 4px !important;
+}
+
+#panel .panel-button .panel-status-indicators-box > .power-status .system-status-icon {
+  color: #B7F34A !important;
+}
+
+#panel .panel-button .power-status StLabel {
+  font-family: "JetBrainsMono Nerd Font", monospace !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+}
+
+/* Launcher (ArcMenu) */
+#panel .arcmenu-panel-menu .panel-status-menu-box {
+  border-color: #20C96B !important;
+  padding: 0 7px !important;
+}
+
+
+/* Workspaces: styled through Space Bar's own settings (see apply-waybar-modules.sh). */
+
+/* Clock module. The stock theme moves the clock's hover state onto the
+   inner .clock label, so the module styling lives there too. */
+#panel .panel-button.clock-display .clock {
+  color: #9BE7B4;
+  font-family: "JetBrainsMono Nerd Font", monospace;
+  font-size: 11px;
+  font-weight: 600;
+  border: 0 solid #9BE7B4;
+  border-bottom-width: 2px;
+  border-radius: 0;
+  padding: 0 8px;
+  box-shadow: inset 0 0 0 100px transparent;
+}
+
+#panel .panel-button.clock-display:hover .clock,
+#panel .panel-button.clock-display:focus .clock {
+  box-shadow: inset 0 0 0 100px rgba(32, 201, 107, 0.10);
+}
+
+#panel .panel-button.clock-display:active .clock,
+#panel .panel-button.clock-display:checked .clock {
+  box-shadow: inset 0 0 0 100px rgba(183, 243, 74, 0.10);
+}
+
+#panel .panel-button.clock-display .messages-indicator {
+  color: #B7F34A;
+}
+
+/* Overview / lock: the bar turns transparent over the wallpaper. Keep the
+   module colours; just darken the hover wash so it reads on any image. */
+#panel:overview .panel-button {
+  color: #D6F5DE;
+}
+
+#panel:overview .panel-button:hover,
+#panel:overview .panel-button:focus {
+  box-shadow: inset 0 0 0 100px rgba(16, 21, 16, 0.45);
+}
+
+
+/* --------------------------------------------------------------------------
+   2. System Monitor Panel (system-monitor-panel@naimur)
+   Lives in the extension's own stylesheet, inside the block marked
+   "Forest Glass", managed by ~/.config/forest-glass/bin/apply-waybar-modules.sh.
+   GNOME 50's St ranks an extension's stylesheet above the shell theme for
+   that extension's widgets (even against !important), so rules here could
+   never win.
+   -------------------------------------------------------------------------- */
+
+
+/* --------------------------------------------------------------------------
+   3. Menus, popovers, Quick Settings
+   -------------------------------------------------------------------------- */
+.popup-menu {
+  color: #D6F5DE;
+}
+
+.popup-menu-content,
+.candidate-popup-content {
+  color: #D6F5DE;
+  background-color: #101510;
+  border: none;
+  border-radius: 14px;
+  box-shadow: none;
+}
+
+.popup-menu-item {
+  color: #D6F5DE;
+  border-radius: 8px;
+  transition-duration: 120ms;
+}
+
+.popup-menu-item:hover,
+.popup-menu-item:focus,
+.popup-menu-item:selected {
+  color: #D6F5DE;
+  background-color: rgba(32, 201, 107, 0.14);
+}
+
+.popup-menu-item:active {
+  color: #D6F5DE;
+  background-color: rgba(183, 243, 74, 0.16);
+}
+
+.popup-menu-item:checked {
+  color: #D6F5DE;
+  background-color: rgba(23, 61, 39, 0.85);
+  border-radius: 8px 8px 0 0 !important;
+}
+
+.popup-menu-item:insensitive {
+  color: rgba(214, 245, 222, 0.42);
+}
+
+.popup-inactive-menu-item {
+  color: #D6F5DE;
+}
+
+.popup-inactive-menu-item:insensitive {
+  color: rgba(214, 245, 222, 0.48);
+}
+
+.popup-sub-menu {
+  background-color: rgba(23, 61, 39, 0.55);
+  border: none;
+  border-radius: 0 0 8px 8px;
+}
+
+.popup-sub-menu .popup-menu-item:hover,
+.popup-sub-menu .popup-menu-item:focus,
+.popup-sub-menu .popup-menu-item:selected {
+  background-color: rgba(32, 201, 107, 0.16);
+}
+
+.popup-sub-menu .popup-menu-item:last-child {
+  border-radius: 0 0 8px 8px;
+}
+
+.popup-separator-menu-item .popup-separator {
+  background-color: rgba(214, 245, 222, 0.07);
+}
+
+.popup-menu-ornament {
+  color: #B7F34A;
+}
+
+/* Quick Settings */
+.quick-settings {
+  padding: 14px;
+  border-radius: 22px;
+}
+
+.quick-settings-grid {
+  spacing-rows: 10px;
+  spacing-columns: 10px;
+}
+
+/* Off = neutral glass; on = emerald with lime icon. The two states must
+   stay visibly different. */
+.quick-toggle,
+.quick-toggle-has-menu .quick-toggle-menu-button {
+  color: #D6F5DE;
+  background-color: rgba(214, 245, 222, 0.07);
+  border: none;
+  box-shadow: none;
+  transition-duration: 150ms;
+}
+
+.quick-toggle:hover,
+.quick-toggle-has-menu .quick-toggle-menu-button:hover {
+  color: #D6F5DE;
+  background-color: rgba(214, 245, 222, 0.12);
+}
+
+.quick-toggle:checked,
+.quick-toggle-has-menu .quick-toggle-menu-button:checked {
+  color: #D6F5DE;
+  background-color: #173D27;
+}
+
+.quick-toggle:checked:hover,
+.quick-toggle-has-menu .quick-toggle-menu-button:checked:hover {
+  background-color: #245435;
+}
+
+.quick-toggle:checked .quick-toggle-icon,
+.quick-toggle-has-menu .quick-toggle-menu-button:checked StIcon {
+  color: #B7F34A;
+}
+
+.quick-toggle:checked .quick-toggle-title,
+.quick-toggle:checked .quick-toggle-subtitle {
+  color: #D6F5DE;
+}
+
+.quick-toggle .quick-toggle-subtitle {
+  color: rgba(214, 245, 222, 0.62);
+}
+
+.quick-toggle:insensitive {
+  color: rgba(214, 245, 222, 0.42);
+  background-color: rgba(214, 245, 222, 0.04);
+}
+
+.quick-toggle-has-menu .quick-toggle-separator {
+  background-color: rgba(214, 245, 222, 0.10);
+}
+
+.quick-toggle-has-menu:checked .quick-toggle-separator {
+  background-color: rgba(183, 243, 74, 0.25);
+}
+
+.quick-settings .icon-button,
+.quick-settings .button {
+  color: #D6F5DE;
+  background-color: rgba(214, 245, 222, 0.07);
+  border: none;
+  box-shadow: none;
+}
+
+.quick-settings .icon-button:hover,
+.quick-settings .button:hover {
+  background-color: rgba(214, 245, 222, 0.12);
+}
+
+.quick-settings .icon-button:checked,
+.quick-settings .button:checked {
+  color: #B7F34A;
+  background-color: #173D27;
+}
+
+.quick-toggle-menu {
+  color: #D6F5DE;
+  background-color: rgba(23, 61, 39, 0.55);
+  border-radius: 16px;
+}
+
+.quick-toggle-menu .header .icon {
+  color: #D6F5DE;
+  background-color: rgba(214, 245, 222, 0.10);
+}
+
+.quick-toggle-menu .header .icon.active {
+  color: #101510;
+  background-color: #20C96B;
+}
+
+.quick-toggle-menu .header .subtitle,
+.device-subtitle {
+  color: rgba(214, 245, 222, 0.62);
+}
+
+.quick-settings-system-item .title,
+.quick-settings-system-item .subtitle {
+  color: #D6F5DE;
+}
+
+/* Sliders (volume, brightness) */
+.slider {
+  -barlevel-background-color: rgba(214, 245, 222, 0.12);
+  -barlevel-active-background-color: #20C96B;
+  -barlevel-overdrive-color: #FF7B63;
+  color: #D6F5DE;
+}
+
+.slider:hover {
+  color: #B7F34A;
+}
+
+/* Toggle switches inside menus */
+.toggle-switch {
+  color: #D6F5DE;
+}
+
+.toggle-switch:checked {
+  background: #20C96B;
+  color: #101510;
+}
+
+.toggle-switch:checked:hover {
+  background-color: #3BD47F;
+}
+
+.toggle-switch .handle {
+  background: #D6F5DE;
+}
+
+
+/* --------------------------------------------------------------------------
+   4. Date menu: calendar, events, world clocks, weather
+   -------------------------------------------------------------------------- */
+.datemenu-today-button,
+.datemenu-today-button .day-label,
+.datemenu-today-button .date-label,
+.calendar .calendar-month-header .calendar-month-label,
+.world-clocks-button .world-clocks-header.no-world-clocks,
+.weather-button .weather-box .weather-header-box .weather-header.no-location {
+  color: #D6F5DE !important;
+}
+
+.events-button,
+.world-clocks-button,
+.weather-button {
+  color: #D6F5DE;
+  background-color: rgba(23, 61, 39, 0.55);
+  border: none;
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+.events-button:hover,
+.world-clocks-button:hover,
+.weather-button:hover {
+  background-color: rgba(32, 201, 107, 0.18);
+}
+
+.events-button .events-box .events-title,
+.events-button .events-box .events-list .event-box .event-time,
+.events-button .events-box .events-list .event-placeholder,
+.world-clocks-button .world-clocks-grid .world-clocks-timezone,
+.weather-button .weather-box .weather-header-box .weather-header {
+  color: rgba(214, 245, 222, 0.62) !important;
+}
+
+.calendar .calendar-day-heading {
+  color: rgba(214, 245, 222, 0.62);
+}
+
+.calendar .calendar-day {
+  color: #D6F5DE;
+  background-color: transparent;
+  border: none;
+  border-radius: 8px;
+}
+
+.calendar .calendar-day.calendar-weekend,
+.calendar .calendar-day.calendar-other-month,
+.calendar .calendar-day.calendar-other-month.calendar-weekend {
+  color: rgba(214, 245, 222, 0.42) !important;
+}
+
+.calendar .calendar-day:hover,
+.calendar .calendar-day:focus {
+  color: #D6F5DE !important;
+  background-color: rgba(32, 201, 107, 0.18) !important;
+  border: none;
+}
+
+.calendar .calendar-day:selected {
+  color: #101510 !important;
+  background-color: #B7F34A !important;
+  border: none;
+}
+
+.calendar .calendar-day.calendar-today,
+.calendar .calendar-day.calendar-today.calendar-day-with-events {
+  color: #D6F5DE !important;
+  background-color: #173D27 !important;
+  border: 1px solid #B7F34A;
+  border-radius: 8px;
+}
+
+.calendar .calendar-day.calendar-today:selected {
+  color: #101510 !important;
+  background-color: #B7F34A !important;
+}
+
+.calendar .calendar-day.calendar-day-with-events {
+  background-image: none !important;
+  font-weight: 800;
+}
+
+.calendar .calendar-week-number {
+  color: #D6F5DE;
+  background-color: rgba(32, 201, 107, 0.12);
+}
+
+.calendar .calendar-month-header .pager-button {
+  color: #D6F5DE;
+  background-color: transparent;
+}
+
+.calendar .calendar-month-header .pager-button:hover {
+  background-color: rgba(32, 201, 107, 0.14);
+}
+
+
+/* --------------------------------------------------------------------------
+   5. Notifications (centre and banners)
+   -------------------------------------------------------------------------- */
+.message-list {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.message-list:ltr,
+.message-list:rtl {
+  border: none;
+}
+
+.message-list .message-list-placeholder {
+  color: rgba(214, 245, 222, 0.48);
+}
+
+/* Applies both in the list and inside banners (banners hold a .message). */
+.message,
+.message:second-in-stack,
+.message:lower-in-stack {
+  color: #D6F5DE;
+  background-color: rgba(23, 61, 39, 0.82);
+  border: none;
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+.message:hover {
+  background-color: #1F4A30;
+}
+
+.message .message-box .message-content,
+.message .message-box .message-content .message-title {
+  color: #D6F5DE;
+}
+
+.message .message-header,
+.message .message-header .message-header-content .event-time {
+  color: rgba(214, 245, 222, 0.62);
+}
+
+.message .message-header .message-expand-button,
+.message .message-header .message-close-button,
+.message-notification-group .message-collapse-button {
+  color: #D6F5DE;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.message .message-header .message-expand-button:hover,
+.message .message-header .message-close-button:hover,
+.message-notification-group .message-collapse-button:hover {
+  color: #B7F34A;
+  background-color: rgba(32, 201, 107, 0.18);
+}
+
+.message-list-controls .message-list-clear-button {
+  color: #D6F5DE;
+  background-color: rgba(214, 245, 222, 0.07);
+}
+
+.message-list-controls .message-list-clear-button:hover {
+  background-color: rgba(32, 201, 107, 0.16);
+}
+
+.notification-banner {
+  color: #D6F5DE;
+  background-color: transparent;
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+}
+
+.notification-banner .message {
+  background-color: rgba(16, 21, 16, 0.96);
+}
+
+.notification-banner .notification-button,
+.notification-banner .button {
+  color: #D6F5DE;
+  background-color: rgba(23, 61, 39, 0.82);
+  border: none;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.notification-banner .notification-button:hover,
+.notification-banner .button:hover {
+  color: #101510;
+  background-color: #B7F34A;
+}
+
+/* Media controls in the notification list */
+.message-media-control {
+  color: #D6F5DE;
+}
+
+.message-media-control:hover {
+  color: #B7F34A;
+  background-color: rgba(32, 201, 107, 0.16);
+}
+
+
+/* --------------------------------------------------------------------------
+   6. Overview: background, search, workspaces, window previews
+   -------------------------------------------------------------------------- */
+#overviewGroup {
+  background-color: #0C110C;
+}
+
+.workspace-background {
+  border-radius: 18px;
+  box-shadow: 0 6px 18px 2px rgba(0, 0, 0, 0.35);
+}
+
+/* Search entry — Rofi-style: emerald glass, lime caret, lime underline on focus. */
+.search-entry,
+#overview .search-entry {
+  color: #D6F5DE;
+  caret-color: #B7F34A;
+  selection-background-color: #20C96B;
+  selected-color: #101510;
+  background-color: rgba(23, 61, 39, 0.72);
+  border: none;
+  border-radius: 10px;
+  padding: 8px 12px;
+  box-shadow: none;
+  transition-duration: 150ms;
+}
+
+.search-entry:hover {
+  background-color: rgba(23, 61, 39, 0.85);
+}
+
+.search-entry:focus {
+  background-color: rgba(23, 61, 39, 0.92);
+  box-shadow: inset 0 -2px 0 0 #B7F34A;
+}
+
+.search-entry .search-entry-icon,
+.search-entry StIcon {
+  color: rgba(214, 245, 222, 0.72);
+}
+
+.search-entry:focus .search-entry-icon {
+  color: #B7F34A;
+}
+
+.search-entry StLabel.hint-text {
+  color: rgba(214, 245, 222, 0.48);
+}
+
+/* Search results */
+.search-section-content {
+  color: #D6F5DE;
+  background-color: rgba(16, 21, 16, 0.86);
+  border: none;
+  border-radius: 16px;
+  box-shadow: none;
+}
+
+.list-search-result,
+.search-provider-icon {
+  color: #D6F5DE;
+  border-radius: 10px;
+}
+
+.list-search-result:hover,
+.search-provider-icon:hover {
+  color: #D6F5DE;
+  background-color: rgba(32, 201, 107, 0.14);
+}
+
+.list-search-result:focus,
+.search-provider-icon:focus,
+.list-search-result:selected,
+.search-provider-icon:selected {
+  color: #D6F5DE;
+  background-color: rgba(23, 61, 39, 0.9);
+  box-shadow: inset 0 0 0 1px rgba(183, 243, 74, 0.45) !important;
+}
+
+.list-search-result:active,
+.search-provider-icon:active {
+  background-color: rgba(183, 243, 74, 0.16);
+}
+
+.list-search-result .list-search-result-description,
+.search-statustext {
+  color: rgba(214, 245, 222, 0.62);
+}
+
+/* Workspace thumbnails (right-hand pager) */
+.workspace-thumbnails .workspace-thumbnail {
+  color: #D6F5DE;
+  background-color: #173D27;
+  border: 1px solid rgba(214, 245, 222, 0.07);
+  border-radius: 8px;
+}
+
+.workspace-thumbnail-indicator {
+  border: 2px solid #B7F34A;
+  border-radius: 8px;
+}
+
+/* Window previews */
+.window-caption,
+.dash-label,
+.screenshot-ui-tooltip {
+  color: #D6F5DE;
+  background-color: rgba(16, 21, 16, 0.94);
+  border: 1px solid rgba(214, 245, 222, 0.07);
+  border-radius: 8px;
+  padding: 5px 10px;
+  box-shadow: none;
+}
+
+.window-close,
+.screenshot-ui-close-button {
+  color: #D6F5DE;
+  background-color: rgba(16, 21, 16, 0.94);
+  border: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.window-close:hover,
+.screenshot-ui-close-button:hover {
+  color: #101510;
+  background-color: #B7F34A;
+}
+
+.window-close:active,
+.screenshot-ui-close-button:active {
+  color: #101510;
+  background-color: #20C96B;
+}
+
+/* Dash (Dash to Dock paints its own background colour from its settings). */
+#dash .dash-background {
+  background-color: rgba(16, 21, 16, 0.82);
+  border-radius: 16px;
+}
+
+#dash .dash-separator {
+  background-color: rgba(214, 245, 222, 0.10);
+}
+
+#dash .dash-item-container .show-apps .overview-icon,
+#dash .dash-item-container .overview-tile .overview-icon {
+  color: #D6F5DE;
+  background-color: transparent;
+}
+
+#dash .dash-item-container .show-apps:hover .overview-icon,
+#dash .dash-item-container .overview-tile:hover .overview-icon {
+  background-color: rgba(32, 201, 107, 0.16);
+}
+
+#dash .dash-item-container .show-apps:checked .overview-icon,
+#dash .dash-item-container .overview-tile:checked .overview-icon {
+  background-color: rgba(183, 243, 74, 0.16);
+}
+
+/* Snap preview (super+arrow, edge tiling) */
+.tile-preview {
+  background-color: rgba(32, 201, 107, 0.16);
+  border: 1px solid rgba(183, 243, 74, 0.7);
+  border-radius: 12px;
+}
+
+
+/* --------------------------------------------------------------------------
+   7. App grid and folders
+   -------------------------------------------------------------------------- */
+.icon-grid {
+  row-spacing: 10px;
+  column-spacing: 10px;
+  max-row-spacing: 28px;
+  max-column-spacing: 28px;
+}
+
+.overview-tile,
+.grid-search-result {
+  color: #D6F5DE;
+  border-radius: 16px;
+  padding: 10px;
+  transition-duration: 150ms;
+}
+
+.overview-tile:hover,
+.grid-search-result:hover {
+  color: #D6F5DE;
+  background-color: rgba(32, 201, 107, 0.14);
+}
+
+.overview-tile:focus,
+.grid-search-result:focus {
+  color: #D6F5DE;
+  background-color: rgba(23, 61, 39, 0.75);
+  box-shadow: inset 0 0 0 2px rgba(183, 243, 74, 0.55) !important;
+}
+
+.overview-tile:active,
+.grid-search-result:active,
+.overview-tile:checked,
+.grid-search-result:checked,
+.overview-tile:selected,
+.grid-search-result:selected,
+.overview-tile:highlighted,
+.grid-search-result:highlighted {
+  color: #D6F5DE;
+  background-color: rgba(183, 243, 74, 0.14);
+}
+
+.overview-tile:drop,
+.grid-search-result:drop {
+  background-color: rgba(32, 201, 107, 0.2);
+  box-shadow: inset 0 0 0 2px rgba(183, 243, 74, 0.6);
+}
+
+.app-grid-running-dot {
+  background-color: #B7F34A;
+}
+
+/* Folder icons on the grid */
+.app-folder {
+  color: #D6F5DE;
+  background-color: rgba(23, 61, 39, 0.70);
+}
+
+.app-folder:hover {
+  background-color: rgba(36, 84, 53, 0.85);
+}
+
+.app-folder:focus {
+  background-color: rgba(36, 84, 53, 0.85);
+  box-shadow: inset 0 0 0 2px rgba(183, 243, 74, 0.55) !important;
+}
+
+/* Open folder dialog */
+.app-folder-dialog {
+  color: #D6F5DE;
+  background-color: rgba(16, 21, 16, 0.97);
+  border: none;
+  border-radius: 28px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+.app-folder-dialog .folder-name-container {
+  color: #D6F5DE;
+}
+
+.app-folder-dialog .folder-name-container StEntry,
+.app-folder-dialog .folder-name-container .folder-name-entry {
+  color: #D6F5DE;
+  caret-color: #B7F34A;
+  background-color: rgba(23, 61, 39, 0.55);
+  border: none;
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.app-folder-dialog .folder-name-container StEntry:focus,
+.app-folder-dialog .folder-name-container .folder-name-entry:focus {
+  box-shadow: inset 0 -2px 0 0 #B7F34A;
+}
+
+.app-folder-dialog .icon-button {
+  color: #D6F5DE;
+  background-color: rgba(214, 245, 222, 0.07);
+}
+
+.app-folder-dialog .icon-button:hover {
+  background-color: rgba(32, 201, 107, 0.18);
+}
+
+.app-folder-dialog .overview-tile:hover {
+  background-color: rgba(32, 201, 107, 0.14);
+}
+
+/* Page dots and arrows */
+.page-indicator .page-indicator-icon {
+  background-color: #D6F5DE;
+}
+
+.page-navigation-arrow,
+.app-folder-dialog .page-navigation-arrow {
+  color: #D6F5DE;
+  background-color: rgba(16, 21, 16, 0.86);
+}
+
+.page-navigation-arrow:hover,
+.app-folder-dialog .page-navigation-arrow:hover {
+  color: #B7F34A;
+  background-color: rgba(23, 61, 39, 0.92);
+}
+
+.page-navigation-hint.dnd {
+  background: rgba(32, 201, 107, 0.10);
+}
+
+.system-action-icon {
+  color: #D6F5DE;
+  background-color: rgba(23, 61, 39, 0.72);
+}
+
+/* ArcMenu: new-app indicators */
+.arcmenu-indicator,
+.arcmenu-text-indicator {
+  color: #B7F34A !important;
+}
+
+
+/* --------------------------------------------------------------------------
+   8. Switchers (Alt+Tab, workspace OSD)
+   -------------------------------------------------------------------------- */
+.switcher-list {
+  color: #D6F5DE;
+  background-color: rgba(16, 21, 16, 0.96);
+  border: none;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.switcher-list .item-box {
+  color: #D6F5DE;
+  background-color: transparent;
+  border: none;
+  border-radius: 12px;
+  box-shadow: none;
+}
+
+.switcher-list .item-box:hover {
+  background-color: rgba(32, 201, 107, 0.12);
+}
+
+.switcher-list .item-box:outlined,
+.switcher-list .item-box:selected {
+  color: #D6F5DE;
+  background-color: rgba(23, 61, 39, 0.9);
+  box-shadow: inset 0 -2px 0 0 #B7F34A;
+}
+
+.switcher-list .item-box StLabel {
+  color: #D6F5DE;
+}
+
+.switcher-list .thumbnail-box {
+  background-color: rgba(23, 61, 39, 0.75);
+  border: none;
+  border-radius: 10px;
+}
+
+.switcher-arrow {
+  color: rgba(214, 245, 222, 0.62);
+}
+
+.switcher-arrow:highlighted {
+  color: #B7F34A;
+}
+
+.workspace-switcher {
+  color: #D6F5DE;
+  background-color: rgba(16, 21, 16, 0.94);
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.26);
+}
+
+.workspace-switcher .ws-switcher-indicator {
+  background-color: rgba(214, 245, 222, 0.28);
+  border: none;
+  border-radius: 99px;
+}
+
+.workspace-switcher .ws-switcher-indicator:active {
+  background-color: #B7F34A;
+}
+
+
+/* --------------------------------------------------------------------------
+   9. Dialogs: modal, run, polkit, end-session, folder rename
+   -------------------------------------------------------------------------- */
+.modal-dialog {
+  color: #D6F5DE;
+  background-color: #101510;
+  border: none;
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+.modal-dialog .modal-dialog-content-box,
+.modal-dialog StLabel,
+.modal-dialog StIcon,
+.modal-dialog .message-dialog-title {
+  color: #D6F5DE;
+}
+
+.modal-dialog .message-dialog-description,
+.modal-dialog .run-dialog-description {
+  color: rgba(214, 245, 222, 0.66);
+}
+
+.modal-dialog .modal-dialog-button-box {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.modal-dialog .modal-dialog-button,
+.modal-dialog .modal-dialog-button-box .modal-dialog-button {
+  color: #D6F5DE;
+  background-color: #173D27;
+  border: none;
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.modal-dialog .modal-dialog-button:hover,
+.modal-dialog .modal-dialog-button-box .modal-dialog-button:hover {
+  color: #D6F5DE;
+  background-color: #245435;
+}
+
+.modal-dialog .modal-dialog-button:focus,
+.modal-dialog .modal-dialog-button:checked,
+.modal-dialog .modal-dialog-button-box .modal-dialog-button:focus,
+.modal-dialog .modal-dialog-button-box .modal-dialog-button:checked {
+  color: #101510;
+  background-color: #B7F34A;
+  box-shadow: none;
+}
+
+.modal-dialog .modal-dialog-button:insensitive,
+.modal-dialog .modal-dialog-button-box .modal-dialog-button:insensitive {
+  color: rgba(214, 245, 222, 0.38);
+  background-color: rgba(23, 61, 39, 0.40);
+}
+
+/* Text entries inside shell dialogs (run dialog, polkit, network secrets). */
+.modal-dialog StEntry,
+.run-dialog .run-dialog-entry {
+  color: #D6F5DE;
+  caret-color: #B7F34A;
+  selection-background-color: #20C96B;
+  selected-color: #101510;
+  background-color: rgba(23, 61, 39, 0.82);
+  border: none;
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.modal-dialog StEntry:focus,
+.run-dialog .run-dialog-entry:focus {
+  background-color: rgba(23, 61, 39, 0.95);
+  box-shadow: inset 0 -2px 0 0 #B7F34A;
+}
+
+.modal-dialog StEntry StLabel.hint-text {
+  color: rgba(214, 245, 222, 0.48);
+}
+
+/* Resize popup */
+.resize-popup {
+  color: #D6F5DE;
+  background-color: rgba(16, 21, 16, 0.96);
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
+}
+
+
+/* --------------------------------------------------------------------------
+   10. OSD (volume/brightness), screenshot UI, pointer helpers
+   -------------------------------------------------------------------------- */
+.osd-window {
+  color: #D6F5DE;
+  background-color: rgba(16, 21, 16, 0.94);
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.26);
+}
+
+.osd-window StIcon,
+.osd-window StLabel {
+  color: #D6F5DE;
+}
+
+.osd-window .level {
+  -barlevel-background-color: rgba(214, 245, 222, 0.12);
+  -barlevel-active-background-color: #20C96B;
+  -barlevel-overdrive-color: #FF7B63;
+}
+
+.osd-monitor-label {
+  color: #101510;
+  background-color: #B7F34A;
+  border-radius: 10px;
+}
+
+.screenshot-ui-panel {
+  color: #D6F5DE;
+  background-color: rgba(16, 21, 16, 0.96);
+  border: none;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+.screenshot-ui-type-button,
+.screenshot-ui-show-pointer-button {
+  color: #D6F5DE;
+  background-color: transparent;
+  border: none;
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.screenshot-ui-type-button:hover,
+.screenshot-ui-type-button:focus,
+.screenshot-ui-show-pointer-button:hover,
+.screenshot-ui-show-pointer-button:focus {
+  color: #D6F5DE;
+  background-color: rgba(32, 201, 107, 0.16);
+}
+
+.screenshot-ui-type-button:checked,
+.screenshot-ui-show-pointer-button:checked {
+  color: #101510;
+  background-color: #B7F34A;
+}
+
+.screenshot-ui-capture-button .screenshot-ui-capture-button-circle {
+  background-color: #20C96B;
+  box-shadow: none;
+}
+
+.screenshot-ui-capture-button:hover .screenshot-ui-capture-button-circle,
+.screenshot-ui-capture-button:focus .screenshot-ui-capture-button-circle {
+  background-color: #B7F34A;
+}
+
+.screenshot-ui-capture-button {
+  border-color: #D6F5DE;
+}
+
+.screenshot-ui-area-selector .screenshot-ui-area-indicator-shade {
+  background-color: rgba(16, 21, 16, 0.55);
+}
+
+.screenshot-ui-area-selector .screenshot-ui-area-indicator-selection {
+  border: 2px solid #B7F34A;
+  background-color: rgba(32, 201, 107, 0.06);
+  box-shadow: none;
+}
+
+.screenshot-ui-area-selector-handle {
+  background-color: #B7F34A;
+  box-shadow: none;
+}
+
+.screenshot-ui-window-selector-window-border {
+  border: 2px solid rgba(32, 201, 107, 0.6);
+  border-radius: 12px;
+}
+
+.screenshot-ui-window-selector-window:hover .screenshot-ui-window-selector-window-border,
+.screenshot-ui-window-selector-window:checked .screenshot-ui-window-selector-window-border {
+  border-color: #B7F34A;
+}
+
+.screenshot-ui-screen-selector:checked {
+  background-color: rgba(32, 201, 107, 0.18);
+  border: 2px solid #B7F34A;
+}
+
+.magnifier-zoom-region {
+  border: 2px solid #B7F34A;
+}
+
+.magnifier-zoom-region.full-screen {
+  border-width: 0;
+}
+
+.select-area-rubberband {
+  background-color: rgba(32, 201, 107, 0.10);
+  border: 1px solid rgba(183, 243, 74, 0.85);
+}
+
+.pie-timer {
+  -pie-border-color: #B7F34A;
+  -pie-background-color: rgba(32, 201, 107, 0.35);
+}
+
+.ripple-box {
+  background-color: rgba(183, 243, 74, 0.25);
+  box-shadow: 0 0 2px 2px rgba(183, 243, 74, 0.2);
+}
+
+
+/* --------------------------------------------------------------------------
+   11. On-screen keyboard and emoji picker
+   -------------------------------------------------------------------------- */
+#keyboard {
+  color: #D6F5DE;
+  background-color: rgba(16, 21, 16, 0.96);
+  border: none;
+  box-shadow: none;
+}
+
+.key-container {
+  background-color: transparent;
+}
+
+.keyboard-key {
+  color: #D6F5DE;
+  background-color: #173D27;
+  border: none;
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.keyboard-key:hover,
+.keyboard-key:focus {
+  background-color: #245435;
+}
+
+.keyboard-key:active,
+.keyboard-key:checked,
+.keyboard-key:latched {
+  color: #101510;
+  background-color: #B7F34A;
+}
+
+.keyboard-key.default-key {
+  color: #101510;
+  background-color: #20C96B;
+}
+
+.keyboard-subkeys-boxpointer {
+  color: #D6F5DE;
+  background-color: #101510;
+  border-radius: 12px;
+}
+
+.emoji-panel {
+  color: #D6F5DE;
+  background-color: rgba(16, 21, 16, 0.97);
+}
+
+.emoji-panel .keyboard-key {
+  background-color: transparent;
+}
+
+.emoji-panel .keyboard-key:hover,
+.emoji-panel .keyboard-key:focus {
+  background-color: rgba(32, 201, 107, 0.14);
+}
+
+.emoji-panel .keyboard-key:latched {
+  color: #101510;
+  background-color: #20C96B;
+}
+
+
+/* --------------------------------------------------------------------------
+   12. Lock screen and in-session authentication
+   (GDM's login screen uses the system theme and is not affected.)
+   -------------------------------------------------------------------------- */
+.unlock-dialog-clock,
+.unlock-dialog-clock .unlock-dialog-clock-time {
+  color: #D6F5DE;
+}
+
+.unlock-dialog-clock .unlock-dialog-clock-date {
+  color: rgba(214, 245, 222, 0.78);
+}
+
+.unlock-dialog-clock .unlock-dialog-clock-hint {
+  color: #B7F34A;
+}
+
+.login-dialog,
+.unlock-dialog,
+.login-dialog .user-widget .user-widget-label,
+.unlock-dialog .user-widget .user-widget-label,
+.login-dialog .login-dialog-auth-list-label,
+.login-dialog .login-dialog-user-list-item {
+  color: #D6F5DE;
+}
+
+.login-dialog .user-widget .user-icon,
+.unlock-dialog .user-widget .user-icon {
+  color: #D6F5DE;
+  background-color: rgba(32, 201, 107, 0.16);
+}
+
+.login-dialog .caps-lock-warning-label,
+.login-dialog .login-dialog-message-warning,
+.unlock-dialog .caps-lock-warning-label,
+.unlock-dialog .login-dialog-message-warning {
+  color: #E8C468;
+}
+
+.login-dialog-banner-view .login-dialog-banner,
+.login-dialog-message-hint,
+.login-dialog-message,
+.login-dialog-not-listed-label {
+  color: rgba(214, 245, 222, 0.78);
+}
+
+.login-dialog StEntry,
+.unlock-dialog StEntry {
+  color: #D6F5DE;
+  caret-color: #B7F34A;
+  background-color: rgba(23, 61, 39, 0.78);
+  border: none;
+  box-shadow: none;
+}
+
+.login-dialog StEntry:focus,
+.unlock-dialog StEntry:focus {
+  box-shadow: inset 0 -2px 0 0 #B7F34A;
+}
+
+.login-dialog-not-listed-button,
+.login-dialog .login-dialog-auth-list-item {
+  color: #D6F5DE;
+  background-color: rgba(23, 61, 39, 0.72);
+  border: none;
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+.login-dialog-not-listed-button:hover,
+.login-dialog-not-listed-button:focus,
+.login-dialog .login-dialog-auth-list-item:hover,
+.login-dialog .login-dialog-auth-list-item:focus,
+.login-dialog .login-dialog-auth-list-item:selected {
+  background-color: rgba(32, 201, 107, 0.20);
+}
+
+.unlock-dialog-notifications-container .message,
+.unlock-dialog-notifications-container .unlock-dialog-notification-source {
+  color: #D6F5DE;
+  background-color: rgba(23, 61, 39, 0.78);
+  border: none;
+  box-shadow: none;
+}
+
+.unlock-dialog-notification-count-text {
+  color: #101510;
+  background-color: #B7F34A;
+}
+
+
+/* --------------------------------------------------------------------------
+   13. Looking Glass (Alt+F2 → lg)
+   -------------------------------------------------------------------------- */
+#LookingGlassDialog {
+  color: #D6F5DE;
+  background-color: rgba(16, 21, 16, 0.97);
+  border: none;
+  border-radius: 16px;
+}
+
+#LookingGlassDialog .notebook-tab {
+  color: #D6F5DE;
+  background-color: transparent;
+}
+
+#LookingGlassDialog .notebook-tab:hover {
+  background-color: rgba(32, 201, 107, 0.14);
+}
+
+#LookingGlassDialog .notebook-tab:selected {
+  color: #B7F34A;
+  box-shadow: inset 0 -2px 0 #B7F34A;
+}
+
+.lg-dialog StEntry {
+  color: #D6F5DE;
+  caret-color: #B7F34A;
+  background-color: rgba(23, 61, 39, 0.82);
+  border: none;
+  border-radius: 8px;
+}
+
+#LookingGlassEvaluator .evaluator-results,
+.lg-dialog .actor-link {
+  color: #20C96B;
+}
+
+.lg-dialog .actor-link:hover {
+  color: #B7F34A;
+}

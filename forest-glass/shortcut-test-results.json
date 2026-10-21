@@ -1,0 +1,79 @@
+[
+ {
+  "keys": "Volume Up / Down keys",
+  "action": "volume-up/-down",
+  "expected": "volume changes",
+  "observed": "0.52 \u2192 0.58 \u2192 0.52",
+  "status": "PASS"
+ },
+ {
+  "keys": "Super+F3 / Super+F2",
+  "action": "custom: brightness +/-",
+  "expected": "brightness up then down",
+  "observed": "108000 \u2192 120000 \u2192 108000",
+  "status": "PASS"
+ },
+ {
+  "keys": "Super (tap)",
+  "action": "ArcMenu (overlay key)",
+  "expected": "ArcMenu opens top-left",
+  "observed": "top-left region changed by 20.7",
+  "status": "PASS"
+ },
+ {
+  "keys": "Super+D",
+  "action": "ArcMenu runner",
+  "expected": "centered launcher opens",
+  "observed": "centre region changed by 9.9",
+  "status": "PASS"
+ },
+ {
+  "keys": "Super+X (twice)",
+  "action": "Forge focus-border-toggle",
+  "expected": "setting flips and flips back",
+  "observed": "false \u2192 true \u2192 false",
+  "status": "PASS"
+ },
+ {
+  "keys": "Super+End",
+  "action": "switch-to-workspace-last",
+  "expected": "test windows open on an empty workspace",
+  "observed": "3 test windows up, C focused, tiled=False",
+  "status": "PASS"
+ },
+ {
+  "keys": "Super+KP_1 / Super+KP_3",
+  "action": "Forge focus left / right",
+  "expected": "focus moves between the two windows",
+  "observed": "focus C \u2192 A \u2192 B",
+  "status": "PASS"
+ },
+ {
+  "keys": "Super+C (twice)",
+  "action": "Forge window-toggle-float",
+  "expected": "size changes, then returns",
+  "observed": "(912, 476) \u2192 (1248, 786) \u2192 (912, 476)",
+  "status": "PASS"
+ },
+ {
+  "keys": "Super+Q",
+  "action": "close window",
+  "expected": "focused test window closes",
+  "observed": "window B closed",
+  "status": "PASS"
+ },
+ {
+  "keys": "Alt+F4",
+  "action": "close window",
+  "expected": "focused test window closes",
+  "observed": "window A closed",
+  "status": "PASS"
+ },
+ {
+  "keys": "Super+1",
+  "action": "switch-to-workspace-1",
+  "expected": "active-workspace marker moves to the first slot",
+  "observed": "Space Bar lime block x: 99 \u2192 53",
+  "status": "PASS"
+ }
+]

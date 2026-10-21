@@ -1,0 +1,55 @@
+/* Forest Glass — GTK 3 (for the adw-gtk3-dark theme)
+   Source: ~/.config/forest-glass/src/gtk3.css → installed as ~/.config/gtk-3.0/gtk.css
+   by ~/.config/forest-glass/bin/apply-gtk.sh.
+
+   adw-gtk3 reads the same named colours as libadwaita, so GTK 3 apps match
+   GTK 4 ones. GTK 3 has no CSS variables, hence @define-color.
+   Palette: obsidian #101510 · emerald #173D27 · green #20C96B ·
+            lime #B7F34A · mint #D6F5DE */
+
+@define-color accent_bg_color #20C96B;
+@define-color accent_fg_color #101510;
+@define-color accent_color #20C96B;
+
+@define-color window_bg_color #131A14;
+@define-color window_fg_color #D6F5DE;
+@define-color view_bg_color #101510;
+@define-color view_fg_color #D6F5DE;
+
+@define-color headerbar_bg_color #151E17;
+@define-color headerbar_fg_color #D6F5DE;
+@define-color headerbar_border_color #D6F5DE;
+@define-color headerbar_backdrop_color #131A14;
+@define-color headerbar_shade_color rgba(0, 0, 0, 0.36);
+
+@define-color sidebar_bg_color #121913;
+@define-color sidebar_fg_color #D6F5DE;
+@define-color sidebar_backdrop_color #121913;
+@define-color sidebar_shade_color rgba(0, 0, 0, 0.25);
+
+@define-color card_bg_color rgba(214, 245, 222, 0.05);
+@define-color card_fg_color #D6F5DE;
+@define-color card_shade_color rgba(0, 0, 0, 0.36);
+
+@define-color dialog_bg_color #172119;
+@define-color dialog_fg_color #D6F5DE;
+@define-color popover_bg_color #18231A;
+@define-color popover_fg_color #D6F5DE;
+
+@define-color shade_color rgba(0, 0, 0, 0.25);
+@define-color scrollbar_outline_color rgba(0, 0, 0, 0.5);
+
+/* Emerald selection, matching GTK 4 and the shell. */
+.view:selected,
+.view:selected:focus,
+treeview.view:selected,
+textview text selection,
+entry selection {
+  background-color: #173D27;
+  color: #D6F5DE;
+}
+
+button.suggested-action:hover {
+  background-color: #B7F34A;
+  color: #101510;
+}
